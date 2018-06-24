@@ -1,0 +1,153 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Sound.Audio
+use Libraries.Game.Graphics.Color
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Interface.Events.KeyboardListener
+
+class Main is Game, KeyboardListener
+
+    // Instatiating the Drawable objects
+
+    Drawable keyC
+    Drawable keyD
+    Drawable keyE
+    Drawable keyF
+    Drawable keyG
+    Drawable keyA
+
+    // Instantiating the Audio objects
+    Audio noteC
+    Audio noteD
+    Audio noteE
+    Audio noteF
+    Audio noteG
+    Audio noteA
+
+    // Instatiating the Color objects
+    Color color
+    Color red = color:Red()
+    Color blue = color:Blue()
+    Color yellow = color:Yellow()
+    Color green = color:Green()
+    Color orange = color:Orange()
+    Color navy = color:Navy()
+
+    /*  
+    Declaring a growbal integer that controls the spinning movement of the 
+    key mathematically when a key is pressed and released.
+    */
+    integer rotateC = 0
+    integer rotateD = 0
+    integer rotateE = 0
+    integer rotateF = 0
+    integer rotateG = 0
+    integer rotateA = 0
+
+    action Main
+        StartGame()
+    end
+
+    action CreateGame
+
+        //Loading and addinng the images to the screen
+        keyC:LoadFilledRectangle(50, 50, red)
+        keyC:SetPosition(80, 200)
+        Add(keyC)
+
+        keyD:LoadFilledRectangle(50, 50, blue)
+        keyD:SetPosition(80*2, 200)
+        Add(keyD)
+
+        keyE:LoadFilledRectangle(50, 50, yellow)
+        keyE:SetPosition(80*3, 200)
+        Add(keyE)
+
+        keyF:LoadFilledRectangle(50, 50, green)
+        keyF:SetPosition(80*4, 200)
+        Add(keyF)
+
+        keyG:LoadFilledRectangle(50, 50, orange)
+        keyG:SetPosition(80*5, 200)
+        Add(keyG)
+
+        keyA:LoadFilledRectangle(50, 50, navy)
+        keyA:SetPosition(80*6, 200)
+        Add(keyA)
+
+        // Loading the Audio files to the Audio objects to be played later
+        noteC:Load("media/code/Guitor-C.ogg")
+        noteD:Load("media/code/Guitor-D.ogg")
+        noteE:Load("media/code/Guitor-E.ogg")
+        noteF:Load("media/code/Guitor-F.ogg")
+        noteG:Load("media/code/Guitor-G.ogg")
+        noteA:Load("media/code/Guitor-A.ogg")
+       
+        AddKeyboardListener(me)
+    end
+
+    action Update(number seconds)
+        // Calling the action 'Rotate() on each Drawable object when the corresponding key is pressed'
+        keyC:Rotate(360*seconds*rotateC)
+        keyD:Rotate(360*seconds*rotateD)
+        keyE:Rotate(360*seconds*rotateE)
+        keyF:Rotate(360*seconds*rotateF)
+        keyG:Rotate(360*seconds*rotateG)
+        keyA:Rotate(360*seconds*rotateA)
+    end
+
+    // Creating the keyboard event when a specific key is pressed
+    action PressedKey(KeyboardEvent event)
+        if event:keyCode = event:A
+            // Making noteC to paly the loaded audio file
+            noteC:Play()
+
+            // Mathematically trigering the rotation movement for the Drawable obejct - keyC
+            rotateC = 1
+
+        elseif event:keyCode = event:S
+            noteD:Play()
+            rotateD = 1
+        elseif event:keyCode = event:D
+            noteE:Play()
+            rotateE = 1
+        elseif event:keyCode = event:F
+            noteF:Play()
+            rotateF = 1
+        elseif event:keyCode = event:G
+            noteG:Play()
+            rotateG = 1
+        elseif event:keyCode = event:H
+            noteA:Play()
+            rotateA = 1
+        end
+    end
+
+    // Creating the keyboard event when a specific key is released
+    action ReleasedKey(KeyboardEvent event)
+        if event:keyCode = event:A
+            // Making the noteC to stop playng the audio file
+
+            noteC:Stop()
+
+            // Mathematically stopping the rotation movement of the Drawable obejct - keyC
+            rotateC = 0
+
+        elseif event:keyCode = event:S
+            noteD:Stop()
+            rotateD = 0
+        elseif event:keyCode = event:D
+            noteE:Stop()
+            rotateE = 0
+        elseif event:keyCode = event:F
+            noteF:Stop()
+            rotateF = 0
+        elseif event:keyCode = event:G
+            noteG:Stop()
+            rotateG = 0
+        elseif event:keyCode = event:H
+            noteA:Stop()
+            rotateA = 0
+        end
+    end   
+end
